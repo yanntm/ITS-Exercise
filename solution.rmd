@@ -1,0 +1,46 @@
+* Compare the two variants, explain how the two encodings differ.
+
+## hanoi.gal
+
+Hanoi uses one variable per ring.
+The value of the variable gives the position of the ring : 0 for pole 0, 1 for pole 1...
+
+We have N variables in an array, to represent the N rings.
+
+The smallest ring has index 0, the largest ring has index N-1.
+
+The move transition tries to move a ring with index $r from pole with index $src to a pole with index $dest such that :
+* the ring with index $r must be in position $src
+* $src and $dest should be different (useless otherwise)
+* Then we test, for any other ring with index $o
+  * if $o is smaller then the current ring $r, then it should not be on the pole $src or the pole $dest. The abort interrupts the treatment.
+* If all conditions are met, we can update the position of the ring to be $dest
+
+So total $N variables with domain {0,1,2}.
+
+## hanoipoles.gal
+
+Hanoi Poles uses one set of $N binary variables per pole (3 bitvectors of size $N).
+The value of the variables tells which rings are on the pole. 
+
+To declare these 3*$N variables, we use a single array with size 3*$N.
+GAL currently do not support multi-dimensional arrays, but we can think of it as an array [3][$N]. 
+The model uses arithmetic on indexes to simulate such an array.
+
+Thus `tab[$i + $N * $pole]` should be read as `tab[$pole][$i]`.
+
+The smallest ring on each pole has index 0, the largest ring has index N-1.
+
+The init transition intializes the system by setting all the bits of pole with index 0 to 1.
+These are indexes 0 to $N-1.
+This init gadget is used to initialize the array in a parametric way (for loop).
+
+The move transition tries to move a ring with index $r from pole with index $src to a pole with index $dest such that :
+* the ring with index $r must be in position $src. This is testing that the $r bit of pole $src is set.
+* $src and $dest should be different (useless otherwise)
+* Then we test, for any other ring with index $o
+  * if $o is smaller then the current ring $r, then it should not be on the pole $src or the pole $dest. The abort interrupts the treatment.
+* If all conditions are met, we can update the position of the ring to be $dest
+
+So total $N variables with domain {0,1,2}.
+
