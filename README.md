@@ -14,7 +14,7 @@ Basically :
 Either create a new empty project or clone this repository.
 
 To clone this repository into your eclipse.
-* Got to Perspective->Git (button in top right corner)
+* Go to Perspective->Git (button in top right corner)
 * Copy this URL (so it is in the copy buffer) : https://github.com/yanntm/ITS-Exercise.git
 * Click "Clone repo" in the browser on left
 * Finish should work, if the url is in copy buffer it will fill itself.
