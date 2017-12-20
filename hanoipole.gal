@@ -1,0 +1,35 @@
+
+
+$N=4;
+typedef ring=0..$N-1;
+typedef pos=0..2;
+
+
+gal hanoi {
+	
+	// each pole : $N bits. 3 poles.
+	array [$N*3] poles;
+	int init =0;
+	
+	transition doInit [init==0] {
+		init =1;
+		// first pole is index 0 to $N-1
+		for ($r : ring) {
+			poles[$r]=1;
+		}
+	}
+	
+	transition move (pos $dest, pos $src, ring $r) [init==1 && poles[$r+($src*$N)] == 1 && $src != $dest] {
+		for ($o : ring) {
+			if ($o < $r && (poles[$o+($src*$N)]==1 || poles[$o+($dest*$N)]==1)) {
+				abort;
+			}
+		}
+		poles[$r + ($dest*$N)]=1;
+		poles[$r + ($src*$N)]=0;
+	} 
+	
+}
+
+// last pole : index 2*$N ...3*$N -1
+property goal [reachable] : poles[8]==1 && poles[9]==1 && poles[10]==1 && poles[11]==1 ;

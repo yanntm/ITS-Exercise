@@ -1,0 +1,23 @@
+
+
+$N=4;
+typedef ring=0..$N-1;
+typedef pos=0..2;
+
+
+gal hanoi {
+	
+	array [$N]rings;
+	
+	transition move (pos $dest, pos $src, ring $r) [rings[$r] == $src && $src != $dest] {
+		for ($o : ring) {
+			if ($o < $r && (rings[$o]==$src || rings[$o]==$dest)) {
+				abort;
+			}
+		}
+		rings[$r]=$dest;
+	} 
+	
+}
+
+property goal [reachable] : rings[0]==2 && rings[1]==2 && rings[2]==2 && rings[3]==2 ;
