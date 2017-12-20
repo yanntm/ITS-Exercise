@@ -113,7 +113,8 @@ Finding the optimal ordering for DD is an NP-Complete problem unfortunately, we 
 
 Yes, saturation rocks. 
 This example is pathologically bad for BFS, simply because the shortest solution trace length is growing exponentially.
-This means the number of iterations of the BFS exploration must also groz exponentially, dominating overall complexity.
+This means the number of iterations of the BFS exploration must also grow exponentially, dominating overall complexity.
+i.e. despite final representation size is only O(N), we won't make it there.
 
 With the appropriate order on "ring state" version, smaller rings are placed at bottom of the DD, near the terminal.
 When doing saturation, we go from terminals up to the root. 
