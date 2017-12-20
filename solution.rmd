@@ -39,8 +39,8 @@ The move transition tries to move a ring with index $r from pole with index $src
 * the ring with index $r must be in position $src. This is testing that the $r bit of pole $src is set.
 * $src and $dest should be different (useless otherwise)
 * Then we test, for any other ring with index $o
-  * if $o is smaller then the current ring $r, then it should not be on the pole $src or the pole $dest. The abort interrupts the treatment.
-* If all conditions are met, we can update the position of the ring to be $dest
+  * if $o is smaller then the current ring $r, then it should not be on the pole $src or the pole $dest. These tests qre again testing if q bit is set. The abort interrupts the treatment.
+* If all conditions are met, we can update the position of the ring to be $dest. This involves clearing the $r bit of $src and setting the bit $r of $dst
 
-So total $N variables with domain {0,1,2}.
+So total 3*$N variables with domain {0,1} + one variable for the init gadget
 
