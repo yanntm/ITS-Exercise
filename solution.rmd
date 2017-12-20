@@ -1,4 +1,4 @@
-* Compare the two variants, explain how the two encodings differ.
+# Q1 Compare the two variants, explain how the two encodings differ.
 
 ## hanoi.gal
 
@@ -44,3 +44,9 @@ The move transition tries to move a ring with index $r from pole with index $src
 
 So total 3*$N variables with domain {0,1} + one variable for the init gadget
 
+## Do both models generate the same Kripke structure / State space ?
+
+Almost but not quite, due to the gadget to intialize hanoipoles, it has one more state than the other version.
+Atomic propositions have an eauivalent but need to be transcoded.
+
+Still overall, both models have the same state space for both states and transition relation.
