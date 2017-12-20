@@ -91,6 +91,40 @@ Hypothesis: I can move N rings from pole a to pole b in K operations.
 * N=1 is K=1 one move (trivial)
 * N+1 : move all smaller rings from a to pole c in K, move current ring from a to pole b in 1, move all smaller rings from pole c to pole b in K. So 2K+1 moves.
 
+## Step 3 : State space encoding
+
+Observing the DD shows a very linear aspect for the state space of the ring model, because as already observed, all configurations are reachable. We ahve the full cartesian product of variable domains, which is a best case scenario for DD techniques. With N nodes (and 3 arcs per node, represented as a single arc with label 0..2) we reprent 3^N states.
+
+The poles model is much larger; the ordering heuristic did not do a great job here. There is still quite a bit of sharing, at the bottom the tree merges again, but those long lines are copies of one another, but identified as different because they have different children, thus copied. Compression is good but not great.
+
+Using BMC builds much larger structures in representation size (nodes in the DD) but with less states in them !
+This leads to a "peak effect" that limits symbolic BFS approaches : before reaching the (small) solution DD, we go through potentially very large intermediate DD. 
+
+Memory usage is hard to predict, but typically peaks at very high level with respect to final representation sizeat some intermediate steps. Saturation can avoid this effect.
+
+Moving init variable at the top isolates a single path : the state where init is 0 and all bits are 0 too.
+The rest of the state space is attached to init=1 decision path.
+
+The order suggested in the hint will indeed be very effective, yielding similar runtimes and compression factors for both models.
+Finding the optimal ordering for DD is an NP-Complete problem unfortunately, we have to rely on heuristics.
 
 
+## Step 4 : Saturation
+
+Yes, saturation rocks. 
+This example is pathologically bad for BFS, simply because the shortest solution trace length is growing exponentially.
+This means the number of iterations of the BFS exploration must also groz exponentially, dominating overall complexity.
+
+With the appropriate order on "ring state" version, smaller rings are placed at bottom of the DD, near the terminal.
+When doing saturation, we go from terminals up to the root. 
+* So at variable 0 (the smallest ring), we discover it can move anywhere
+* go up one level, we discover ring 1 can move anywhere, since the smaller ring could be anywhere. We resaturate ring 0 on the fly, and now both ring 0 and 1 could be anywhere.
+* in a single pass over the DD we find the solution 
+
+Reverse the order and saturation is broken
+* the ring N cannot move in isolation
+* ring N-1 cannot move etc...
+* each move of a ring must to reach the root decision variable, ring 0, to be able to move
+
+Saturation is sensitive to the top level impacted by each event, not just to the final state space representation (which is the same linear aspect for every order)
 
