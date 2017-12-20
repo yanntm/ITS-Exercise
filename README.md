@@ -1,5 +1,11 @@
 # ITS-Exercise
 
+This exercise is designed to investigate how a symbolic encoding of a state space works.
+We will use DDD to build the state space of some GAL models.
+
+![Hanoi towers](https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Iterative_algorithm_solving_a_6_disks_Tower_of_Hanoi.gif/220px-Iterative_algorithm_solving_a_6_disks_Tower_of_Hanoi.gif) 
+
+
 ## Step 1 : Download and Install
 
 Follow [these instructions to get ITS-Tools](https://lip6.github.io/ITSTools-web/eclipsestart.html)
