@@ -82,4 +82,15 @@ Value of N | 1 | 2 | 3 | 4 | ... | N
 Number of States | 3 | 9 | 27 | 81 | ...| 3^N
 Shortest trace | 1 | 3 | 7 | 15 | ...| 2^N -1
 
+The state space size, given that we have N variables with domain {0,1,2} indicates that all situations are reachable in fact.
+So we could choose as goal any arbitrary position for each ring, and there would be a solution.
+
+The shortest trace is consistent the recursive solution to hanoi; repeat twice what you did at previous step + one move to recurse.
+
+Hypothesis: I can move N rings from pole a to pole b in K operations.
+* N=1 is K=1 one move (trivial)
+* N+1 : move all smaller rings from a to pole c in K, move current ring from a to pole b in 1, move all smaller rings from pole c to pole b in K. So 2K+1 moves.
+
+
+
 
