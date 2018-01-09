@@ -169,10 +169,11 @@ Full compilation may take a few minutes, and may raise a few non critical warnin
 
 You should get a series of `testFailed` at the end of the log ; this is normal, the operators are not implemented yet !
 
-Now edit `ITS-CTL/src/mc/operators.cpp`, then run `make` in ITS-CTL folder, then run the tests again until you can run the tests with no failures. 
-
+Now edit `ITS-CTL/src/mc/operators.cpp`, it currently contains default versions of the operators that just return the empty set.
 The algorithms are presented in the course slides starting roughly from slide 50.
 The formulas are already transformed to existential form for you; you only need to deal with the EX, EF, EG temporal operators.
+
+Then run `make` in ITS-CTL folder, then run the tests again `cd tests ; ./run_all.sh 2> /dev/null | grep testFailed` until you can run all the tests with no failures. 
 
 
 
