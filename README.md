@@ -157,6 +157,22 @@ its::Transition getPredRel () const;
 its::State getStateVerifying (Ctlp_Formula_t *formula) const;
 ```
 
+## Installing and Compiling
+
+Clone this repository : `git clone --depth=1 https://github.com/yanntm/ITS-Exercise.git`
+
+Then install the tools using the `build_all.sh` script located in `install/` folder. You will need :
+* a recent gcc/g++ (4.9 or better)
+* autotools (autoconf, automake)
+Other dependecies (libGMP, ANTLR...) are downloaded and installed as part of the build. 
+Full compilation may take a few minutes, and may raise a few non critical warnings, but should not fail (scripts provided for linux, but should work with minor modifications on OSX or MinGW).
+
+You should get a series of `testFailed` at the end of the log ; this is normal, the operators are not implemented yet !
+
+Now edit `ITS-CTL/src/mc/operators.cpp`, then run `make` in ITS-CTL folder, then run the tests again until you can run the tests with no failures. 
+
+The algorithms are presented in the course slides starting roughly from slide 50.
+The formulas are already transformed to existential form for you; you only need to deal with the EX, EF, EG temporal operators.
 
 
 
