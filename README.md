@@ -114,5 +114,53 @@ On the "ring state" version, reverse the order of the variables.
 
 Why does this impact efficiency ?
   
+## Step 5 : Computation Tree Logic CTL
+
+In this part, we will implement the critical algorithmic part of a CTL symbolic model-checker.
+We will rely on libDDD for symbolic DD manipulation, and on libITS to parse and load a model and CTL formula.
+
+Your goal is to implement this set of functions : [operators.hh](https://github.com/lip6/ITS-CTL/blob/master/src/mc/operators.hh)
+
+Within this framework, the main classes you need to know about are :
+
+### its::State = a SDD representing a *SET* of states
+
+Binary operators are overloaded: `+` is union, `*` is intersection, `-` is set difference, `==` compares two State
+
+`State::null` = empty set
+
+### its::Transition = a transition relation, mapping an its::State to another its::State
+
+The paren operator is overloaded so that using the transition relation looks like a function call. 
+For instance, this code would compute in `s2` the immediate successors of the initial states : 
+```
+its::Transition t = checker.getNextRel(); 
+its::State s = checker.getInitialState(); 
+its::State s2 = t(s) ;
+```
+
+### You are given a CTLChecker that provides :
+
+```
+// initial set of states
+its::State getInitialState () const;
+// all reachable states
+its::State getReachable () const;
+// a selector, that retains states satisfying "ap"
+its::Transition getAtomicPredicate (Label ap) const;
+// the "Next" transition relation, forward one step.
+its::Transition getNextRel () const ;
+// the "Pred" transition relation, backward one step
+its::Transition getPredRel () const;
+// Compute the set of states satisfying a formula, and cache the result.
+// Recursively relies on the functions in *this* file.
+its::State getStateVerifying (Ctlp_Formula_t *formula) const;
+```
+
+
+
+
+
+
 
 
