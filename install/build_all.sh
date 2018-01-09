@@ -44,8 +44,6 @@ then
     git clone --depth=1 https://github.com/lip6/ITS-CTL.git
     cd ITS-CTL
     autoreconf -vfi
-    wget https://lip6.github.io/ITSTools-web/files/ctlCheck.cpp
-    mv ctlCheck.cpp ./src/mc/
     ./configure --enable-nolto --prefix=$INSTDIR  --with-libexpat=$INSTDIR  --with-antlrc=$INSTDIR  CPPFLAGS="-I$INSTDIR/include -DITS_EXERCISE" LDFLAGS="-L$INSTDIR/lib" 
     make
     cd tests ; \rm *.data ; cp ../../tests.tgz . ; tar xzf tests.tgz ; cd ..
@@ -53,5 +51,8 @@ then
 fi
 
 
+cd ITS-CTL ; make ; cd tests/ ; ./run_all.sh 2>/dev/null | grep testFailed ; cd ../..
 
+echo "First edit file : ITS-CTL/src/mc/operators.cpp"
+echo "Test like this : cd ITS-CTL ; make ; cd tests/ ; ./run_all.sh 2>/dev/null | grep testFailed ; cd ../.."
 
