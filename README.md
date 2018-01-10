@@ -114,5 +114,70 @@ On the "ring state" version, reverse the order of the variables.
 
 Why does this impact efficiency ?
   
+## Step 5 : Computation Tree Logic CTL
+
+In this part, we will implement the critical algorithmic part of a CTL symbolic model-checker.
+We will rely on libDDD for symbolic DD manipulation, and on libITS to parse and load a model and CTL formula.
+
+Your goal is to implement this set of functions : [operators.hh](https://github.com/lip6/ITS-CTL/blob/master/src/mc/operators.hh)
+
+Within this framework, the main classes you need to know about are :
+
+### its::State = a SDD representing a *SET* of states
+
+Binary operators are overloaded: `+` is union, `*` is intersection, `-` is set difference, `==` compares two State
+
+`State::null` = empty set
+
+### its::Transition = a transition relation, mapping an its::State to another its::State
+
+The paren operator is overloaded so that using the transition relation looks like a function call. 
+For instance, this code would compute in `s2` the immediate successors of the initial states : 
+```
+its::Transition t = checker.getNextRel(); 
+its::State s = checker.getInitialState(); 
+its::State s2 = t(s) ;
+```
+
+### You are given a CTLChecker that provides :
+
+```
+// initial set of states
+its::State getInitialState () const;
+// all reachable states
+its::State getReachable () const;
+// a selector, that retains states satisfying "ap"
+its::Transition getAtomicPredicate (Label ap) const;
+// the "Next" transition relation, forward one step.
+its::Transition getNextRel () const ;
+// the "Pred" transition relation, backward one step
+its::Transition getPredRel () const;
+// Compute the set of states satisfying a formula, and cache the result.
+// Recursively relies on the functions in *this* file.
+its::State getStateVerifying (Ctlp_Formula_t *formula) const;
+```
+
+## Installing and Compiling
+
+Clone this repository : `git clone --depth=1 https://github.com/yanntm/ITS-Exercise.git`
+
+Then install the tools using the `build_all.sh` script located in `install/` folder. You will need :
+* a recent gcc/g++ (4.9 or better)
+* autotools (autoconf, automake)
+Other dependecies (libGMP, ANTLR...) are downloaded and installed as part of the build. 
+Full compilation may take a few minutes, and may raise a few non critical warnings, but should not fail (scripts provided for linux, but should work with minor modifications on OSX or MinGW).
+
+You should get a series of `testFailed` at the end of the log ; this is normal, the operators are not implemented yet !
+
+Now edit `ITS-CTL/src/mc/operators.cpp`, it currently contains default versions of the operators that just return the empty set.
+The algorithms are presented in the course slides starting roughly from slide 50.
+The formulas are already transformed to existential form for you; you only need to deal with the EX, EF, EG temporal operators.
+
+Then run `make` in ITS-CTL folder, then run the tests again `cd tests ; ./run_all.sh 2> /dev/null | grep testFailed` until you can run all the tests with no failures. 
+
+
+
+
+
 
 
