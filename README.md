@@ -162,10 +162,17 @@ its::State getStateVerifying (Ctlp_Formula_t *formula) const;
 Clone this repository : `git clone --depth=1 https://github.com/yanntm/ITS-Exercise.git`
 
 Then install the tools using the `build_all.sh` script located in `install/` folder. You will need :
-* a recent gcc/g++ (4.9 or better)
-* autotools (autoconf, automake)
+* a recent gcc/g++ (5 or better)
+* autotools (autoconf, automake, libtool)
+
 Other dependecies (libGMP, ANTLR...) are downloaded and installed as part of the build. 
 Full compilation may take a few minutes, and may raise a few non critical warnings, but should not fail (scripts provided for linux, but should work with minor modifications on OSX or MinGW).
+
+### Troubleshooting
+* If using gcc-4.9, it is necessary to edit : https://github.com/lip6/libITS/blob/master/its/gal/PIntExpression.cpp#L726-L731
+Replace the whole block by `return i+j;` then run `make ; make install` again in libITS folder.
+* If you have trouble linking, removing `--enable-nolto` in `build_all.sh` may help depending on your compiler version.
+clang is *not* supported; MacOS user need to use the hombrew recipe for gcc7.
 
 You should get a series of `testFailed` at the end of the log ; this is normal, the operators are not implemented yet !
 
