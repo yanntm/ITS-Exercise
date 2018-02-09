@@ -1,0 +1,1 @@
+This exercise is based off [this earlier version](https://github.com/lip6/libDDD/tree/master/demo/hanoi) that was built with Alexandre Hamez, based off an example suggested by Gianfranco Ciardo to teach DD to students. 
