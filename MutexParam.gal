@@ -1,0 +1,45 @@
+
+
+// number of process
+$N = 2;
+
+typedef index = 0..$N-1;
+
+
+gal mutexParam {
+	// 3 places per process : 0=idle, 1=start to ask for crit, 2=readytogocrit
+	// so $i*3 is p1, $i*3+1 is p2 and $i*3+2 is p3 with$i a process id
+	array [$N *3] places;
+	// critical section, init 1 so that after firing tendSC we release all process
+	int pSC = 1;
+	
+	transition t1 (index $i) [ places[$i *3]==1  ] {
+		places[$i *3 ] -=1;
+		places[$i *3 +1] +=1;
+	} 
+	transition t2 (index $i) [ places[$i *3 +1]==1  ] {
+		places[$i *3 +1 ] -=1;
+		places[$i *3 +2] +=1;
+	}
+	transition tSC (index $i) [ places[$i *3 +2]==1  ] {
+		for ($j : index) {
+			if ($i != $j  && places[$j * 3] < 1) {
+				abort;
+			} else {
+				if ($i != $j) {
+			  		places[$j * 3] -= 1;	
+			  	}
+			}
+			
+		}
+		places[$i *3 + 2 ] -=1;
+		pSC +=1;
+	}
+	
+	transition tendSC [pSC >= 1] {
+		pSC -= 1;
+		for ($i : index) {
+			places[$i *3] += 1;
+		}
+	}
+}
