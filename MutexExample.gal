@@ -1,0 +1,41 @@
+
+gal model{
+  int p1 = 1;
+  int p2 = 0;
+  int p3 = 0;
+  int pp1 = 1;
+  int pp2 = 0;
+  int pp3 = 0;
+  int p4SC = 0;
+  transition t1 [ p1 >= 1 ] {
+    p2 += 1    ;
+    p1 -= 1    ;
+  }
+  transition t2 [ p2 >= 1 ] {
+    p2 -= 1    ;
+    p3 += 1    ;
+  }
+  transition tSC [ p3 >= 1 && pp1 >= 1 ] {
+    p4SC += 1    ;
+    p3 -= 1    ;
+    pp1 -= 1    ;
+  }
+  transition tt1 [ pp1 >= 1 ] {
+    pp2 += 1    ;
+    pp1 -= 1    ;
+  }
+  transition tt2 [ pp2 >= 1 ] {
+    pp2 -= 1    ;
+    pp3 += 1    ;
+  }
+  transition endSC [ p4SC >= 1 ] {
+    p1 += 1    ;
+    p4SC -= 1    ;
+    pp1 += 1    ;
+  }
+  transition ttSC [ p1 >= 1 && pp3 >= 1 ] {
+    p1 -= 1    ;
+    p4SC += 1    ;
+    pp3 -= 1    ;
+  }
+}
